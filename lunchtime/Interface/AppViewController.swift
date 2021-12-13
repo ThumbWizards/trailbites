@@ -32,7 +32,7 @@ class AppViewController: UIViewController {
 
     lazy var listMapButton: FloatingActionButton = {
         let button = FloatingActionButton(state: .map).withAutoLayout()
-        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 110).isActive = true
         button.heightAnchor.constraint(equalToConstant: 48).isActive = true
         button.addTarget(self, action:#selector(swapScreen), for: .touchUpInside)
         return button

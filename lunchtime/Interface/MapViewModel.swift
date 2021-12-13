@@ -10,23 +10,39 @@ import MapKit
 
 class MapViewModel {
 
-    let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
+    private let locationManager: CurrentLocationManagerProtocol
+    private let restaurantsDataSource: RestaurantsDataSource
+    private let notifier: Notifier
 
-    var currentLocation: CLLocationCoordinate2D? {
+    private var currentLocation: CLLocationCoordinate2D? {
         didSet {
             locationUpdated?(currentLocation)
         }
     }
 
-    var locationUpdated: ((CLLocationCoordinate2D?) -> Void)?
+    var restaurantsNearby: [Restaurant] = [] {
+        didSet {
+            restaurantsUpdated?()
+        }
+    }
 
-    private let locationManager: CurrentLocationManagerProtocol
-    private let mainQueue: OperationQueue
+    var locationUpdated: ((CLLocationCoordinate2D?) -> Void)?
+    var restaurantsUpdated: (() -> Void)?
+
+    var annotations: [RestaurantPointAnnotation] {
+        return restaurantsNearby.compactMap {
+            RestaurantPointAnnotation(restaurant: $0)
+        }
+    }
 
     init(locationManager: CurrentLocationManagerProtocol = CurrentLocationManager(),
-        mainQueue: OperationQueue = OperationQueue.main) {
+         restaurantsDataSource: RestaurantsDataSource = RestaurantsNearbyLocationProvider.sharedManager,
+         notifier: Notifier = Notifier()) {
         self.locationManager = locationManager
-        self.mainQueue = mainQueue
+        self.restaurantsDataSource = restaurantsDataSource
+        self.notifier = notifier
+
+        setupNotifications()
 
         fetchUserCoordinate { [weak self] coordinate in
             guard let self = self else { return }
@@ -34,7 +50,23 @@ class MapViewModel {
         }
     }
 
-    func fetchUserCoordinate(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+    private func setupNotifications() {
+        notifier.notify(.resturantsDataSourceDidUpdate) { [weak self] _ in
+            if let newRestaurants = self?.restaurantsDataSource.restaurantsNearby {
+                self?.restaurantsNearby = newRestaurants
+            }
+        }
+    }
+
+    private func fetchUserCoordinate(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         return locationManager.fetchCurrentLocation(completion)
+    }
+
+    func fetchNearbyRestaurants(at atLocation: CLLocationCoordinate2D? = nil) {
+        if let location = atLocation {
+            restaurantsDataSource.fetchRestaurants(closestTo: .provided(location))
+        } else {
+            restaurantsDataSource.fetchRestaurants(closestTo: .current)
+        }
     }
 }

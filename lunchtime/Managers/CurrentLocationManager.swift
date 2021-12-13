@@ -84,6 +84,9 @@ extension CurrentLocationManager: CLLocationManagerDelegate {
             return
         }
         completion?(location.coordinate)
+
+        // bug
+        completion = nil
         print("completion = nil")
     }
 

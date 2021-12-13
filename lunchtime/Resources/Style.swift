@@ -37,6 +37,14 @@ extension UIColor {
     static var accent: UIColor {
         return UIColor(named: "accent")!
     }
+
+    static var star: UIColor {
+        return UIColor(named: "star")!
+    }
+
+    static var starAccent: UIColor {
+        return UIColor(named: "starAccent")!
+    }
 }
 
 extension UIView {
