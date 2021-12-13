@@ -10,45 +10,19 @@ import UIKit
 
 class StarView: UIView {
 
-    let restaurant: Restaurant
+    var viewModel: StarViewModel?
 
-    private lazy var starStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: stars()).withAutoLayout()
-        stackView.alignment = .leading
-        stackView.axis = .horizontal
-        return stackView
-    }()
-
-
-    private lazy var reviewsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 12, weight: .bold)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = .text
-        label.text = "(0)"
-        return label
-    }()
-    
-
-    lazy var mainStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [
-                                                    StackViewSpacerView(axis: .horizontal, exactSpace: 20),
-                                                   reviewsLabel], axis: .horizontal).withAutoLayout()
-
+    private lazy var mainStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [starStack], axis: .vertical).withAutoLayout()
         return stack
     }()
 
-    init(restaurant: Restaurant) {
-        self.restaurant = restaurant
-        super.init(frame: .zero)
-        setupViews()
-        setupConstraints()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private var starStack: UIStackView {
+        let stackView = UIStackView(arrangedSubviews: stars(), axis: .horizontal).withAutoLayout()
+        stackView.spacing = 8
+        stackView.alignment = .leading
+        stackView.axis = .horizontal
+        return stackView
     }
 
     private func setupViews() {
@@ -57,11 +31,51 @@ class StarView: UIView {
     }
 
     private func setupConstraints() {
-        let constraints = mainStack.constraintsToFillSuperview(margins: UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24))
+        let constraints = mainStack.constraintsToFillSuperview(margins: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2))
         NSLayoutConstraint.activate(constraints)
     }
 
-    func stars() -> [UIImageView] {
-        return []
+    func updateWithViewModel(viewModel: StarViewModel?) {
+        guard let viewModel = viewModel else {
+            resetView()
+            return
+        }
+        self.viewModel = viewModel
+        setupViews()
+        setupConstraints()
+    }
+
+    private func resetView() {
+        starStack.removeArrangedSubviews()
+        mainStack.removeArrangedSubviews()
+        removeAllSubviews()
+    }
+
+    private func stars() -> [UIImageView] {
+        guard let viewModel = viewModel else {
+            return []
+        }
+
+        var views = [UIImageView]()
+        for _ in 0..<viewModel.illuminatedStarCount {
+            views.append(star(illuminated: true))
+        }
+        for _ in 0..<viewModel.deluminatedStarCount {
+            views.append(star(illuminated: false))
+        }
+        return views
+    }
+
+    private func star(illuminated: Bool) -> UIImageView {
+        let image: UIImage?
+        if illuminated {
+            image = UIImage(systemName: "star.fill")?.withTintColor(UIColor.starAccent, renderingMode: .alwaysOriginal)
+        } else {
+            image = UIImage(systemName: "star.fill")?.withTintColor(UIColor.star, renderingMode: .alwaysOriginal)
+        }
+        let imageView = UIImageView(image: image).withAutoLayout()
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        return UIImageView(image: image)
     }
 }

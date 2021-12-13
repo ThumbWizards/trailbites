@@ -16,6 +16,19 @@ protocol Restaurant {
     var userRatings: Int? { get }
 }
 
+extension Restaurant {
+    var starCount: Int {
+        guard let rating = rating else {
+            return 0
+        }
+        return Int(floor(rating))
+    }
+
+    var asRestaurantDetail: RestaurantDetail {
+        return RestaurantDetail(name: name, lat: lat, long: long, priceLevel: priceLevel, rating: rating, userRatings: userRatings)
+    }
+}
+
 struct RestaurantDetail: Restaurant {
     var name: String
     var lat: Double
