@@ -9,9 +9,9 @@ import Foundation
 
 class RestuarantViewModel {
 
-    let restaurant: RestaurantDetail
+    let restaurant: Restaurant
 
-    init(restaurant: RestaurantDetail) {
+    init(restaurant: Restaurant) {
         self.restaurant = restaurant
     }
 }

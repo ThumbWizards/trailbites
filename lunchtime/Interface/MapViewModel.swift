@@ -10,22 +10,24 @@ import MapKit
 
 class MapViewModel {
 
-    let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
+    private let locationManager: CurrentLocationManagerProtocol
+    private let restaurantsDataSource: RestaurantsDataSource
+    private let mainQueue: OperationQueue
 
-    var currentLocation: CLLocationCoordinate2D? {
+    private var currentLocation: CLLocationCoordinate2D? {
         didSet {
             locationUpdated?(currentLocation)
         }
     }
 
+    var restaurantsNearby: [Restaurant] = []
     var locationUpdated: ((CLLocationCoordinate2D?) -> Void)?
 
-    private let locationManager: CurrentLocationManagerProtocol
-    private let mainQueue: OperationQueue
-
     init(locationManager: CurrentLocationManagerProtocol = CurrentLocationManager(),
-        mainQueue: OperationQueue = OperationQueue.main) {
+         restaurantsDataSource: RestaurantsDataSource = RestaurantsNearbyLocationProvider.sharedManager,
+         mainQueue: OperationQueue = OperationQueue.main) {
         self.locationManager = locationManager
+        self.restaurantsDataSource = restaurantsDataSource
         self.mainQueue = mainQueue
 
         fetchUserCoordinate { [weak self] coordinate in
@@ -34,7 +36,15 @@ class MapViewModel {
         }
     }
 
-    func fetchUserCoordinate(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+    private func fetchUserCoordinate(completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         return locationManager.fetchCurrentLocation(completion)
+    }
+
+    func fetchNearbyRestaurants(at atLocation: CLLocationCoordinate2D? = nil) {
+        if let location = atLocation {
+            restaurantsDataSource.fetchRestaurants(closestTo: .provided(location))
+        } else {
+            restaurantsDataSource.fetchRestaurants(closestTo: .current)
+        }
     }
 }

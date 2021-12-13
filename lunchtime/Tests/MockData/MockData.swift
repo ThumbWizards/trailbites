@@ -11,9 +11,7 @@ class MockRestaurants {
 
     static func restaurantSet() -> [RestaurantDetail] {
         return [
-            RestaurantDetail(name: "joe's crab shack"),
-            RestaurantDetail(name: "Swiss cheese"),
-            RestaurantDetail(name: "Shake Shack")
+            RestaurantDetail(name: "Joe's Crab Shack", lat: 42.498506, long: -83.557805, priceLevel: 2, rating: 4.1, userRatings: 10001)
         ]
     }
 }
