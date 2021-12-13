@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		400D1A762762BD79000C2DD1 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400D1A752762BD79000C2DD1 /* UIViewExtensions.swift */; };
+		4017D1C327671CE300CFBE74 /* RestaurantPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4017D1C227671CE300CFBE74 /* RestaurantPointAnnotation.swift */; };
+		4017D1C527672D0600CFBE74 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4017D1C427672D0600CFBE74 /* StarView.swift */; };
 		403442C52763D68D006E7477 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442C42763D68D006E7477 /* ArrayExtensions.swift */; };
 		403442C72763DB81006E7477 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442C62763DB81006E7477 /* UIViewControllerExtensions.swift */; };
 		403442C92763E587006E7477 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442C82763E587006E7477 /* MapViewModel.swift */; };
@@ -92,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		400D1A752762BD79000C2DD1 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		4017D1C227671CE300CFBE74 /* RestaurantPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantPointAnnotation.swift; sourceTree = "<group>"; };
+		4017D1C427672D0600CFBE74 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		403442C42763D68D006E7477 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		403442C62763DB81006E7477 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		403442C82763E587006E7477 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -211,6 +215,7 @@
 				404378002762D9C900D07E2A /* SearchAndFilterView.swift */,
 				40E249922762F7DB0025C873 /* RestaurantTableViewCell.swift */,
 				40E249982762FF780025C873 /* RestaurantCardView.swift */,
+				4017D1C427672D0600CFBE74 /* StarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				40E249A3276307AB0025C873 /* RestaurantViewModel.swift */,
+				4017D1C227671CE300CFBE74 /* RestaurantPointAnnotation.swift */,
 				403442D82764106D006E7477 /* Models */,
 				4063AD67275826BA0041C569 /* LaunchScreen */,
 			);
@@ -595,6 +601,7 @@
 				403442C52763D68D006E7477 /* ArrayExtensions.swift in Sources */,
 				40E249A12763071E0025C873 /* MockData.swift in Sources */,
 				40E2498C2762F1120025C873 /* UIColorExtensions.swift in Sources */,
+				4017D1C527672D0600CFBE74 /* StarView.swift in Sources */,
 				4063AD52275824E20041C569 /* UserBackedStringSetting.swift in Sources */,
 				4063AD16275822090041C569 /* AppDelegate.swift in Sources */,
 				403442CD2763ED7D006E7477 /* FloatingActionButton.swift in Sources */,
@@ -602,6 +609,7 @@
 				4038C7AB275D2AFF0029E45A /* HeaderView.swift in Sources */,
 				4063AD18275822090041C569 /* SceneDelegate.swift in Sources */,
 				404378052762DBC400D07E2A /* StackViewSpacerView.swift in Sources */,
+				4017D1C327671CE300CFBE74 /* RestaurantPointAnnotation.swift in Sources */,
 				4063AD47275823B80041C569 /* ThemeWindow.swift in Sources */,
 				4063AD54275824E20041C569 /* UserBackedBooleanSetting.swift in Sources */,
 				4063AD56275824E20041C569 /* SettingProtocols.swift in Sources */,

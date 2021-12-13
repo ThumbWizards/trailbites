@@ -34,7 +34,7 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        fetchAndReloadData()
+        setupListeners()
     }
 
     private func setupViews() {
@@ -45,6 +45,12 @@ class ListViewController: UIViewController {
     private func setupConstraints() {
         let constraints = tableView.constraintsToFillSuperview()
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupListeners() {
+        viewModel.restaurantsUpdated = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     @objc private func fetchAndReloadData() {
@@ -60,7 +66,7 @@ class ListViewController: UIViewController {
 extension ListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.restaurants.count
+        return viewModel.restaurantsNearby.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +75,8 @@ extension ListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RestaurantTableViewCell.defaultReuseIdentifier, for: indexPath) as! RestaurantTableViewCell
-        if let restaurant = viewModel.restaurants.subscriptSafe(indexPath.section) {
+
+        if let restaurant = viewModel.restaurantsNearby.subscriptSafe(indexPath.section) {
             cell.viewModel = RestuarantViewModel(restaurant: restaurant)
         }
         return cell
@@ -77,5 +84,24 @@ extension ListViewController: UITableViewDataSource {
 }
 
 extension ListViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 16
+        }
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView(frame: .zero)
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView(frame: .zero)
+    }
 
 }

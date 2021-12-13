@@ -37,13 +37,17 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     var restaurantsNearby: [Restaurant] {
         set {
             self.privateRestaurantsNearby = newValue
-            NotificationCenter.default.post(name: .resturantsDataSourceDidUpdate, object: nil)
         }
         get {
             return privateRestaurantsNearby
         }
     }
-    private var privateRestaurantsNearby: [Restaurant] = []
+    
+    private var privateRestaurantsNearby: [Restaurant] = [] {
+        didSet {
+            NotificationCenter.default.post(name: .resturantsDataSourceDidUpdate, object: nil)
+        }
+    }
 
     var hasAny: Bool {
         return restaurantsNearby.hasElements()

@@ -12,7 +12,7 @@ class MapViewModel {
 
     private let locationManager: CurrentLocationManagerProtocol
     private let restaurantsDataSource: RestaurantsDataSource
-    private let mainQueue: OperationQueue
+    private let notifier: Notifier
 
     private var currentLocation: CLLocationCoordinate2D? {
         didSet {
@@ -20,19 +20,41 @@ class MapViewModel {
         }
     }
 
-    var restaurantsNearby: [Restaurant] = []
+    var restaurantsNearby: [Restaurant] = [] {
+        didSet {
+            restaurantsUpdated?()
+        }
+    }
+
     var locationUpdated: ((CLLocationCoordinate2D?) -> Void)?
+    var restaurantsUpdated: (() -> Void)?
+
+    var annotations: [RestaurantPointAnnotation] {
+        return restaurantsNearby.compactMap {
+            RestaurantPointAnnotation(restaurant: $0)
+        }
+    }
 
     init(locationManager: CurrentLocationManagerProtocol = CurrentLocationManager(),
          restaurantsDataSource: RestaurantsDataSource = RestaurantsNearbyLocationProvider.sharedManager,
-         mainQueue: OperationQueue = OperationQueue.main) {
+         notifier: Notifier = Notifier()) {
         self.locationManager = locationManager
         self.restaurantsDataSource = restaurantsDataSource
-        self.mainQueue = mainQueue
+        self.notifier = notifier
+
+        setupNotifications()
 
         fetchUserCoordinate { [weak self] coordinate in
             guard let self = self else { return }
             self.currentLocation = coordinate
+        }
+    }
+
+    private func setupNotifications() {
+        notifier.notify(.resturantsDataSourceDidUpdate) { [weak self] _ in
+            if let newRestaurants = self?.restaurantsDataSource.restaurantsNearby {
+                self?.restaurantsNearby = newRestaurants
+            }
         }
     }
 

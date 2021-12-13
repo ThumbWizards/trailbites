@@ -13,116 +13,55 @@ public class RestaurantCardView: UIView {
     private let roundedContainerView: UIView = RoundedContainerView(backgroundColor: UIColor.white).withAutoLayout()
 
     private lazy var mainStackView: UIStackView = {
-        var arrangedSubviews = [dateStackView,
-                                StackViewSpacerView(axis: .vertical, exactSpace: 12),
-                                detailsStackView]
+        var arrangedSubviews = [UIStackView(arrangedSubviews: [imageView], axis: .horizontal),
+                                StackViewSpacerView(axis: .horizontal, exactSpace: 8),
+                                centerContentStack
+                                ]
         let stackView = UIStackView(arrangedSubviews: arrangedSubviews).withAutoLayout()
         stackView.alignment = .leading
         stackView.axis = .vertical
         return stackView
     }()
 
-    private lazy var dateStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel]).withAutoLayout()
-        stackView.distribution = .fill
-        stackView.axis = .horizontal
+    private lazy var imageView: UIImageView = {
+        let image = UIImageView(frame: .zero).withAutoLayout()
+        image.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        image.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        return image
+    }()
+
+    private lazy var centerContentStack: UIStackView = {
+        var arrangedSubviews = [UIStackView(arrangedSubviews: [nameLabel, priceLabel], axis: .vertical),
+                                StackViewSpacerView(axis: .vertical, exactSpace: 12)
+                                ]
+        let stackView = UIStackView(arrangedSubviews: arrangedSubviews).withAutoLayout()
+        stackView.alignment = .leading
+        stackView.axis = .vertical
         return stackView
     }()
 
-    private lazy var dateLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.font(size: 12, weight: .bold)
         label.backgroundColor = .clear
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.textColor = UIColor.text
+        label.textColor = .text
+        label.text = "Hungry Howies"
         return label
     }()
 
-    private lazy var detailsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [jumpCountStackView, caloriesStackView, jumpTimeStackView]).withAutoLayout()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-
-    private lazy var jumpCountStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [jumpCountLabel, jumpCountTitleLabel]).withAutoLayout()
-        stackView.axis = .vertical
-        return stackView
-    }()
-
-    private lazy var jumpCountTitleLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.font(size: 12, weight: .medium)
+        label.font = UIFont.font(size: 12, weight: .bold)
         label.backgroundColor = .clear
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.textColor = UIColor.text
+        label.textColor = .text
+        label.text = "$$$$$ - super expensive"
         return label
     }()
 
-    private lazy var jumpCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 18, weight: .bold)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = UIColor.text
-        return label
-    }()
-
-    private lazy var jumpTimeStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [jumpTimeLabel, jumpTimeTitleLabel]).withAutoLayout()
-        stackView.axis = .vertical
-        return stackView
-    }()
-
-    private lazy var jumpTimeTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 12, weight: .medium)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = UIColor.text
-        return label
-    }()
-
-    private lazy var jumpTimeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 18, weight: .bold)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = UIColor.text
-        return label
-    }()
-
-    private lazy var caloriesStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [caloriesLabel, caloriesTitleLabel]).withAutoLayout()
-        stackView.axis = .vertical
-        return stackView
-    }()
-
-    private lazy var caloriesTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 12, weight: .medium)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = UIColor.text
-        return label
-    }()
-
-    private lazy var caloriesLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 18, weight: .bold)
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.textColor = UIColor.text
-        return label
-    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -150,8 +89,7 @@ public class RestaurantCardView: UIView {
 
     private func setupConstraints() {
         var constraints = roundedContainerView.constraintsToFillSuperview()
-        constraints += mainStackView.constraintsToFillSuperview(marginH: 16, marginV: 16)
-        constraints += detailsStackView.constraintsToFillSuperviewHorizontally()
+        constraints += mainStackView.constraintsToFillSuperview(marginH: 8, marginV: 8)
         constraints.forEach { $0.priority = UILayoutPriority(rawValue: 999) }
         NSLayoutConstraint.activate(constraints)
     }
@@ -161,13 +99,14 @@ public class RestaurantCardView: UIView {
             resetView()
             return
         }
-        _ = viewModel.restaurant.name
+        nameLabel.text = viewModel.restaurant.name
+        priceLabel.text = String(viewModel.restaurant.priceLevel ?? 0)
         isUserInteractionEnabled = true
     }
 
     private func resetView() {
-        dateLabel.text = nil
-        jumpTimeLabel.text = nil
-        caloriesLabel.text  = nil
+        nameLabel.text = ""
+        priceLabel.text = ""
+
     }
 }

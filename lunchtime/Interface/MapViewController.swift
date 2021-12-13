@@ -12,7 +12,6 @@ import UIKit
 class MapViewController: UIViewController {
 
     let viewModel = MapViewModel()
-    let notifier: Notifier
 
     private lazy var mapView: MKMapView = {
         let map = MKMapView(frame: .zero).withAutoLayout()
@@ -21,20 +20,11 @@ class MapViewController: UIViewController {
         return map
     }()
 
-    init(notifier: Notifier = Notifier()) {
-        self.notifier = notifier
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        setupNotifications()
+        setupListeners()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -51,34 +41,38 @@ class MapViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
 
-    private func setupNotifications() {
+    private func setupListeners() {
         viewModel.locationUpdated = { [weak self] coordinate in
             self?.centerMap(toLocation: coordinate ?? Constants.CurrentLocationManager.defaultLocation)
             self?.viewModel.fetchNearbyRestaurants()
         }
 
-        notifier.notify(.resturantsDataSourceDidUpdate) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.updateMap()
-            }
+        viewModel.restaurantsUpdated = { [weak self] in
+            self?.updateMap()
         }
     }
 
     private func centerMap(toLocation coordinate: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion( center: coordinate,
-                                         latitudinalMeters: CLLocationDistance(exactly: 2500)!,
-                                         longitudinalMeters: CLLocationDistance(exactly: 2500)!)
+                                         latitudinalMeters: CLLocationDistance(exactly: 5000)!,
+                                         longitudinalMeters: CLLocationDistance(exactly: 5000)!)
         mapView.setRegion(mapView.regionThatFits(region), animated: false)
     }
 
     private func updateMap() {
         print("updateMap")
+        let annotations = viewModel.annotations
+        mapView.addAnnotations(annotations)
     }
 }
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("did select annotation")
+        guard let restaurantAnnotation = view.annotation as? RestaurantPointAnnotation else {
+            return
+        }
+
+        print("\(restaurantAnnotation.restaurant.name)")
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -96,10 +90,15 @@ extension MapViewController: MKMapViewDelegate {
             view?.annotation = annotation
         }
 
-        if let pinImage = UIImage(systemName: "pin") {
+        if let pinImage = UIImage(named: "annotation") {
             view?.image = pinImage
         }
         return view
+    }
+
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let center = mapView.centerCoordinate
+        viewModel.fetchNearbyRestaurants(at: center)
     }
 }
 
