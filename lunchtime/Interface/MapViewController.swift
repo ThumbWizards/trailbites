@@ -58,7 +58,9 @@ class MapViewController: UIViewController {
         }
 
         notifier.notify(.resturantsDataSourceDidUpdate) { [weak self] _ in
-            self?.updateMap()
+            DispatchQueue.main.async {
+                self?.updateMap()
+            }
         }
     }
 

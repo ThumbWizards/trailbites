@@ -11,16 +11,16 @@ protocol Restaurant {
     var name: String { get }
     var lat: Double { get }
     var long: Double { get }
-    var priceLevel: Int { get }
-    var rating: Double { get }
-    var userRatings: Int { get }
+    var priceLevel: Int? { get }
+    var rating: Double? { get }
+    var userRatings: Int? { get }
 }
 
 struct RestaurantDetail: Restaurant {
     var name: String
     var lat: Double
     var long: Double
-    var priceLevel: Int
-    var rating: Double
-    var userRatings: Int
+    var priceLevel: Int?
+    var rating: Double?
+    var userRatings: Int?
 }

@@ -36,19 +36,24 @@ class RestaurantSearch: RestaurantService {
 
         session.dataTask(with: request) { data, request, error in
 
-            if let error = error {
-                completion(.failure(.unknown(error)))
-                return
-            }
-
             if let data = data, let response = try? data.decoded() as NearbyResponse {
 
                 let searchResponse = RestaurantSearchResponse(restaurants: response.results)
                 DispatchQueue.main.async {
                     completion(.success(searchResponse))
                 }
+                return
             }
-            completion(.failure(.failedToParse))
+
+            if let error = error {
+                completion(.failure(.unknown(error)))
+                return
+            }
+
+            DispatchQueue.main.async {
+                completion(.failure(.failedToParse))
+                return
+            }
 
         }.resume()
     }
@@ -56,7 +61,7 @@ class RestaurantSearch: RestaurantService {
     func buildRequestURL(searchParameters: RestaurantSearchParameters) -> URL? {
 
         var urlBuilder = Constants.Network.apiBaseURL
-        urlBuilder += "locations=\(searchParameters.location.latitude),\(searchParameters.location.longitude)"
+        urlBuilder += "location=\(searchParameters.location.latitude),\(searchParameters.location.longitude)"
         urlBuilder += "&radius=\(searchParameters.distanceInMeters)"
         urlBuilder += "&types=restaurant"
 
@@ -66,6 +71,7 @@ class RestaurantSearch: RestaurantService {
 
         urlBuilder += "&key=AIzaSyDue_S6t9ybh_NqaeOJDkr1KC9a2ycUYuE"
 
+        print("\(urlBuilder)")
         if let url = URL(string: urlBuilder) {
             return url
         }

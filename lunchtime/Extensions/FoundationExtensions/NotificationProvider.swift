@@ -1,7 +1,6 @@
 import Foundation
 
 @objc public protocol NotificationProvider {
-    func post(name: NSNotification.Name, object: Any?)
     func postNotification(name: String, object: Any?, userInfo: [AnyHashable: Any]?)
     @discardableResult
     func addObserver(_ name: String, object obj: Any?, queue: OperationQueue?, block: @escaping ((Notification) -> Void)) -> NSObjectProtocol
@@ -9,10 +8,6 @@ import Foundation
 }
 
 extension NotificationCenter: NotificationProvider {
-
-    public func post(name: NSNotification.Name, object: Any?) {
-        post(name: name, object: object)
-    }
 
     public func postNotification(name: String, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         post(name: NSNotification.Name(rawValue: name), object: object, userInfo: userInfo)

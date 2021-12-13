@@ -28,30 +28,22 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
 
     static let sharedManager = RestaurantsNearbyLocationProvider()
 
-    var restaurantsNearby: [Restaurant] {
-        return resturantsNearbyGroup
-    }
-
     let locationManager: CurrentLocationManagerProtocol
     let restaurantService: RestaurantService
     let notificationProvider: NotificationProvider
     let itemLockingQueue = DispatchQueue(label: "itemLockingQueue")
     let mainQueue: OperationQueue
 
-    private var privateResturantsNearbyGroup: [Restaurant] = []
-    private var resturantsNearbyGroup: [Restaurant] {
+    var restaurantsNearby: [Restaurant] {
         set {
-            itemLockingQueue.sync {
-                self.privateResturantsNearbyGroup = newValue
-            }
-            notificationProvider.post(name: .resturantsDataSourceDidUpdate, object: nil)
+            self.privateRestaurantsNearby = newValue
+            NotificationCenter.default.post(name: .resturantsDataSourceDidUpdate, object: nil)
         }
         get {
-            itemLockingQueue.sync {
-                return privateResturantsNearbyGroup
-            }
+            return privateRestaurantsNearby
         }
     }
+    private var privateRestaurantsNearby: [Restaurant] = []
 
     var hasAny: Bool {
         return restaurantsNearby.hasElements()
@@ -84,19 +76,17 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
             }
 
             self.searchRestaurantsNearby(to: userCoordinate) { [weak self] result in
-                self?.mainQueue.addOperation {
                     switch result {
                     case .success(let searchResponse):
-                        self?.resturantsNearbyGroup = searchResponse.restaurants
+                        self?.privateRestaurantsNearby = searchResponse.restaurants
                     case .failure(let error):
                         switch error {
                         case .failedToParse:
-                            print("Could not parse json")
+                            print("Could not parse json 1")
                         case .unknown(let error):
                             print("error: \(error.localizedDescription))")
                         }
                     }
-                }
             }
         }
     }
@@ -106,11 +96,11 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
             self?.mainQueue.addOperation {
                 switch result {
                 case .success(let searchResponse):
-                    self?.resturantsNearbyGroup = searchResponse.restaurants
+                    self?.privateRestaurantsNearby = searchResponse.restaurants
                 case .failure(let error):
                     switch error {
                     case .failedToParse:
-                        print("Could not parse json")
+                        print("Could not parse json 2")
                     case .unknown(let error):
                         print("error: \(error.localizedDescription))")
                     }

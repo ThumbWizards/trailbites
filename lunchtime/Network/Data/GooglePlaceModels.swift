@@ -10,14 +10,18 @@ import Codextended
 
 struct NearbyResponse: Codable {
     var results: [GooglePlace]
+
+    init(from decoder: Decoder) throws {
+        results = try decoder.decode("results")
+    }
 }
 
 struct GooglePlace: Codable, Restaurant {
     var name: String
     var geometry: GoogleGeometry
-    var priceLevel: Int
-    var rating: Double
-    var userRatings: Int
+    var priceLevel: Int?
+    var rating: Double?
+    var userRatings: Int?
 
     var lat: Double {
         return geometry.location.lat
@@ -30,9 +34,9 @@ struct GooglePlace: Codable, Restaurant {
     init(from decoder: Decoder) throws {
         name = try decoder.decode("name")
         geometry = try decoder.decode("geometry")
-        priceLevel = try decoder.decode("priceLevel")
-        rating = try decoder.decode("rating")
-        userRatings = try decoder.decode("userRatings")
+        priceLevel = try decoder.decodeIfPresent("price_level")
+        rating = try decoder.decodeIfPresent("rating")
+        userRatings = try decoder.decodeIfPresent("user_ratings_total")
     }
 }
 
@@ -50,6 +54,6 @@ struct GoogleLatLong: Codable {
 
     init(from decoder: Decoder) throws {
         lat = try decoder.decode("lat")
-        long = try decoder.decode("long")
+        long = try decoder.decode("lng")
     }
 }
