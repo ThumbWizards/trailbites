@@ -31,6 +31,8 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     let locationManager: CurrentLocationManagerProtocol
     let restaurantService: RestaurantService
     let notificationProvider: NotificationProvider
+    let notifier: Notifier
+    let ascendingFilterEnabled: BooleanSetting
     let itemLockingQueue = DispatchQueue(label: "itemLockingQueue")
     let mainQueue: OperationQueue
 
@@ -45,7 +47,7 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     
     private var privateRestaurantsNearby: [Restaurant] = [] {
         didSet {
-            NotificationCenter.default.post(name: .resturantsDataSourceDidUpdate, object: nil)
+            notificationProvider.postNotification(name: Notification.Name.resturantsDataSourceDidUpdate.rawValue, object: nil, userInfo: nil)
         }
     }
 
@@ -56,11 +58,24 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     init(locationManager: CurrentLocationManagerProtocol = CurrentLocationManager(),
          restaurantService: RestaurantService = RestaurantSearch(),
          notificationProvider: NotificationProvider = NotificationCenter.default,
+         notifier: Notifier = Notifier(),
+         ascendingFilterEnabled: BooleanSetting = Settings.ratingsFilterAscending,
          mainQueue: OperationQueue = OperationQueue.main) {
+        self.notifier = notifier
         self.locationManager = locationManager
         self.restaurantService = restaurantService
         self.notificationProvider = notificationProvider
+        self.ascendingFilterEnabled = ascendingFilterEnabled
         self.mainQueue = mainQueue
+
+        setupNotifications()
+    }
+
+    private func setupNotifications() {
+        notifier.notify(.filterUpdated) { [weak self] _ in
+            guard let self = self else { return }
+            self.privateRestaurantsNearby = self.sortedRestaurants(self.restaurantsNearby)
+        }
     }
 
     func fetchRestaurants(closestTo: NearbyLocation) {
@@ -80,6 +95,7 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
             }
 
             self.searchRestaurantsNearby(to: userCoordinate) { [weak self] result in
+                self?.mainQueue.addOperation {
                     switch result {
                     case .success(let searchResponse):
                         self?.privateRestaurantsNearby = searchResponse.restaurants
@@ -91,6 +107,7 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
                             print("error: \(error.localizedDescription))")
                         }
                     }
+                }
             }
         }
     }
@@ -100,7 +117,7 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
             self?.mainQueue.addOperation {
                 switch result {
                 case .success(let searchResponse):
-                    self?.privateRestaurantsNearby = searchResponse.restaurants
+                    self?.privateRestaurantsNearby = self?.sortedRestaurants(searchResponse.restaurants) ?? []
                 case .failure(let error):
                     switch error {
                     case .failedToParse:
@@ -120,5 +137,17 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     func searchRestaurantsNearby(to coordinate: CLLocationCoordinate2D, completion: @escaping (Result<RestaurantSearchResponse, RestaurantSearchError>) -> Void) {
         let searchParameters = RestaurantSearchParameters(location: coordinate)
         restaurantService.searchRestaurants(searchParameters: searchParameters, completion: completion)
+    }
+
+    private func sortedRestaurants(_ toSort: [Restaurant]) -> [Restaurant] {
+        if ascendingFilterEnabled.value == true {
+            return toSort.sorted {
+                $0.rating ?? 0 < $1.rating ?? 0
+            }
+        } else {
+            return toSort.sorted {
+                $0.rating ?? 0 > $1.rating ?? 0
+            }
+        }
     }
 }

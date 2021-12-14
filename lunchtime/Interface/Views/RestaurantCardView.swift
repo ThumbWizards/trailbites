@@ -14,55 +14,43 @@ public class RestaurantCardView: UIView {
 
     private let roundedContainerView: UIView = RoundedContainerView(backgroundColor: UIColor.white).withAutoLayout()
 
-    private lazy var mainStackView: UIStackView = {
-        var arrangedSubviews = [imageView,
-                                rightContentStack
-                                ]
-        let stackView = UIStackView(arrangedSubviews: arrangedSubviews).withAutoLayout()
-        stackView.alignment = .leading
-        stackView.axis = .horizontal
-        stackView.spacing = 16
-        return stackView
+    private var contentView: UIView = {
+        let view = UIView(frame: .zero).withAutoLayout()
+        return view
     }()
 
     private lazy var imageView: UIImageView = {
-        let image = UIImageView(frame: .zero).withAutoLayout()
-        image.widthAnchor.constraint(equalToConstant: 90).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        image.backgroundColor = .purple
-        return image
+        let imageView = UIImageView(frame: .zero).withAutoLayout()
+        imageView.image = UIImage(named: "comingsoon")
+        imageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        return imageView
     }()
 
-    private lazy var rightContentStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [nameLabel,
-                                                       starReviewsStack,
-                                                       priceLabel],
-                                    axis: .vertical).withAutoLayout()
-        stackView.alignment = .leading
-        stackView.spacing = 8
-        return stackView
+    private lazy var detailsView: UIView = {
+        let view = UIView(frame: .zero).withAutoLayout()
+        view.addSubviews([nameLabel,
+                          starView,
+                          reviewsLabel,
+                          priceLabel])
+        return view
     }()
 
     private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 16, weight: .bold)
+        let label = UILabel().withAutoLayout()
+        label.font = UIFont.font(size: 14, weight: .semibold)
         label.backgroundColor = .clear
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.textColor = .text
+        label.textColor = .darkText
         label.text = "Hungry Howies"
         return label
     }()
 
-    private lazy var starReviewsStack: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [starView, reviewsLabel],
-                                    axis: .horizontal)
-        stackView.alignment = .leading
-        return stackView
-    }()
-
     private lazy var starView: StarView = {
         let view = StarView().withAutoLayout()
+        view.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 20).isActive = true
         return view
     }()
 
@@ -78,8 +66,8 @@ public class RestaurantCardView: UIView {
     }()
 
     private lazy var priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.font(size: 12, weight: .bold)
+        let label = UILabel().withAutoLayout()
+        label.font = UIFont.font(size: 12, weight: .light)
         label.backgroundColor = .clear
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -87,7 +75,6 @@ public class RestaurantCardView: UIView {
         label.text = "$$$$$ • super expensive"
         return label
     }()
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -108,16 +95,40 @@ public class RestaurantCardView: UIView {
 
     private func setupViews() {
         addSubview(roundedContainerView)
-        roundedContainerView.addSubview(mainStackView)
+        roundedContainerView.addSubview(contentView)
         roundedContainerView.layer.borderWidth = 1.0
         roundedContainerView.layer.borderColor = UIColor.border.withAlphaComponent(0.5).cgColor
+
+        contentView.addSubviews([imageView, detailsView])
     }
 
     private func setupConstraints() {
         var constraints = roundedContainerView.constraintsToFillSuperview()
-        constraints += mainStackView.constraintsToFillSuperview(marginH: 20, marginV: 20)
-        constraints += rightContentStack.constraintsToFillSuperviewVertically(margins: 8)
-        constraints.forEach { $0.priority = UILayoutPriority(rawValue: 999) }
+        constraints += contentView.constraintsToFillSuperview(marginH: 20, marginV: 20)
+
+        imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+
+        detailsView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 2).isActive = true
+        detailsView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16).isActive = true
+        detailsView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -2).isActive = true
+        detailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+
+        nameLabel.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 4).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor).isActive = true
+
+        starView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+        starView.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
+
+        reviewsLabel.centerYAnchor.constraint(equalTo: starView.centerYAnchor).isActive = true
+        reviewsLabel.leadingAnchor.constraint(equalTo: starView.trailingAnchor, constant: 8).isActive = true
+
+        priceLabel.topAnchor.constraint(equalTo: starView.bottomAnchor, constant: 8).isActive = true
+        priceLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
+        priceLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor).isActive = true
+
+        //constraints.forEach { $0.priority = UILayoutPriority(rawValue: 999) }
         NSLayoutConstraint.activate(constraints)
     }
 
@@ -130,7 +141,8 @@ public class RestaurantCardView: UIView {
         let starViewModel = StarViewModel(restaurant: viewModel.restaurant)
         starView.updateWithViewModel(viewModel: starViewModel)
         nameLabel.text = viewModel.restaurant.name
-        priceLabel.text = String(viewModel.restaurant.priceLevel ?? 0)
+        priceLabel.text = viewModel.priceText
+        reviewsLabel.text = "(\(viewModel.restaurant.userRatings ?? 0))"
         isUserInteractionEnabled = true
     }
 
@@ -138,6 +150,7 @@ public class RestaurantCardView: UIView {
         starView.updateWithViewModel(viewModel: nil)
         nameLabel.text = ""
         priceLabel.text = ""
+        reviewsLabel.text = ""
 
     }
 }

@@ -10,11 +10,12 @@ import UIKit
 
 class StarView: UIView {
 
-    var viewModel: StarViewModel?
+    private var viewModel: StarViewModel
 
-    private lazy var mainStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [starStack], axis: .vertical).withAutoLayout()
-        return stack
+    private lazy var contentView: UIView = {
+        let view = UIView(frame: .zero).withAutoLayout()
+        view.addSubview(starStack)
+        return view
     }()
 
     private var starStack: UIStackView {
@@ -25,14 +26,15 @@ class StarView: UIView {
         return stackView
     }
 
-    private func setupViews() {
-        backgroundColor = .white
-        addSubview(mainStack)
+    init(viewModel: StarViewModel = StarViewModel(restaurant: PlaceholderRestaurant())) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+        setupViews()
+        setupConstraints()
     }
 
-    private func setupConstraints() {
-        let constraints = mainStack.constraintsToFillSuperview(margins: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2))
-        NSLayoutConstraint.activate(constraints)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func updateWithViewModel(viewModel: StarViewModel?) {
@@ -41,21 +43,27 @@ class StarView: UIView {
             return
         }
         self.viewModel = viewModel
-        setupViews()
-        setupConstraints()
+        starStack.addArrangedSubviews(stars())
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     private func resetView() {
         starStack.removeArrangedSubviews()
-        mainStack.removeArrangedSubviews()
-        removeAllSubviews()
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+
+    private func setupViews() {
+        addSubview(contentView)
+    }
+
+    private func setupConstraints() {
+        let constraints = contentView.constraintsToFillSuperview()
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func stars() -> [UIImageView] {
-        guard let viewModel = viewModel else {
-            return []
-        }
-
         var views = [UIImageView]()
         for _ in 0..<viewModel.illuminatedStarCount {
             views.append(star(illuminated: true))

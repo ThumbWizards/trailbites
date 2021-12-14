@@ -49,6 +49,10 @@ class HeaderView: UIView {
         constraints += searchAndFilterView.constraintsToFillSuperviewHorizontally()
         NSLayoutConstraint.activate(constraints)
     }
+
+    func setSearchAndFilterDelegate(_ delegate: SearchAndFilterDelegate) {
+        searchAndFilterView.delegate = delegate
+    }
 }
 
 private extension DesignConstants {

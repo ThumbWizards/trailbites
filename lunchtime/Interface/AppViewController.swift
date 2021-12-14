@@ -13,6 +13,7 @@ class AppViewController: UIViewController {
 
     private lazy var headerView: HeaderView = {
         let view = HeaderView(frame: CGRect.zero).withAutoLayout()
+        view.setSearchAndFilterDelegate(self)
         return view
     }()
 
@@ -97,5 +98,34 @@ class AppViewController: UIViewController {
             self?.listView.alpha = CGFloat(listAlpha)
             self?.mapView.alpha = CGFloat(mapAlpha)
         }
+    }
+}
+
+extension AppViewController: SearchAndFilterDelegate {
+    func didSearch(withText: String) {
+        print("did search")
+    }
+
+    func tapFilter(fromView: UIView) {
+        print("tap filter")
+
+        let filterController = SortFilterPopoverViewController()
+
+        filterController.modalPresentationStyle = .popover
+
+        let popOverVC = filterController.popoverPresentationController
+        popOverVC?.delegate = self
+        popOverVC?.sourceView = fromView
+        popOverVC?.sourceRect = CGRect(x:100, y: 110, width: 0, height: 0)
+        popOverVC?.permittedArrowDirections = .none
+        filterController.preferredContentSize = CGSize(width: 190, height: 90)
+
+        self.present(filterController, animated: true)
+    }
+}
+
+extension AppViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

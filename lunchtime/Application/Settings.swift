@@ -6,4 +6,8 @@ public struct Settings {
     // Stores the users preference for light/dark mode
     //
     public static let themeOverride: IntegerSetting = UserBackedIntegerSetting(key: "themeOverride")
+
+    // Stores the saved filter and whether it is descending (default false)
+    //
+    public static let ratingsFilterAscending: BooleanSetting = UserBackedBooleanSetting(key: "ratingsFilterAscending")
 }

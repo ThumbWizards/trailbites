@@ -28,7 +28,6 @@ class RestaurantTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = .clear
-        autolayout = true
         setupViews()
         setupConstraints()
     }

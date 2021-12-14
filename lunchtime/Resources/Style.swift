@@ -30,6 +30,10 @@ extension UIColor {
         UIColor(named: "text")!
     }
 
+    static var darkText: UIColor {
+        return UIColor(named: "darkText")!
+    }
+
     static var button: UIColor {
         return UIColor(named: "button")!
     }
@@ -44,6 +48,10 @@ extension UIColor {
 
     static var starAccent: UIColor {
         return UIColor(named: "starAccent")!
+    }
+
+    static var lightGray: UIColor {
+        return UIColor(named: "lightgray")!
     }
 }
 
