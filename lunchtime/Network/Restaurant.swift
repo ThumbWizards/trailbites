@@ -29,7 +29,16 @@ extension Restaurant {
     }
 
     var asRestaurantDetail: RestaurantDetail {
-        return RestaurantDetail(name: name, lat: lat, long: long, priceLevel: priceLevel, rating: rating, userRatings: userRatings)
+        return RestaurantDetail(name: name,
+                                lat: lat,
+                                long: long,
+                                priceLevel: priceLevel,
+                                rating: rating,
+                                userRatings: userRatings,
+                                photoReference: photoReference,
+                                photoWidth: photoWidth,
+                                photoHeight: photoHeight,
+                                isOpenNow: isOpenNow)
     }
 }
 

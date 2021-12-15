@@ -8,12 +8,12 @@
 import Foundation
 import CoreLocation
 
-public protocol CurrentLocationManagerProtocol {
+protocol CurrentLocationManagerProtocol {
     var isCurrentLocationAvailable: Bool { get }
     func fetchCurrentLocation(_ completion: @escaping (CLLocationCoordinate2D?) -> Void)
 }
 
-public protocol CLLocationManagerProtocol: AnyObject {
+protocol CLLocationManagerProtocol: AnyObject {
     var delegate: CLLocationManagerDelegate? { get set }
     var distanceFilter: CLLocationDistance { get set }
     var desiredAccuracy: CLLocationAccuracy { get set }
@@ -21,13 +21,13 @@ public protocol CLLocationManagerProtocol: AnyObject {
     func requestWhenInUseAuthorization()
     func requestLocation()
 
-    func requestLocationEnabled() -> Bool
+    func requestLocationServicesEnabled() -> Bool
     func requestAuthorizationStatus() -> CLAuthorizationStatus
 }
 
 extension CLLocationManager: CLLocationManagerProtocol {
-    public func requestLocationEnabled() -> Bool { return CLLocationManager.locationServicesEnabled() }
-    public func requestAuthorizationStatus() -> CLAuthorizationStatus { return CLLocationManager().authorizationStatus }
+    func requestLocationServicesEnabled() -> Bool { return CLLocationManager.locationServicesEnabled() }
+    func requestAuthorizationStatus() -> CLAuthorizationStatus { return CLLocationManager().authorizationStatus }
 }
 
 class CurrentLocationManager: NSObject, CurrentLocationManagerProtocol {
@@ -53,14 +53,14 @@ class CurrentLocationManager: NSObject, CurrentLocationManagerProtocol {
     }
 
     var locationEnabled: Bool {
-        return locationManager.requestLocationEnabled()
+        return locationManager.requestLocationServicesEnabled()
     }
 
     var authorizationStatus: CLAuthorizationStatus {
         return locationManager.requestAuthorizationStatus()
     }
 
-    public func fetchCurrentLocation(_ completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+    func fetchCurrentLocation(_ completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         self.completion = completion
 
         if allowLocationFetch() {
@@ -84,10 +84,7 @@ extension CurrentLocationManager: CLLocationManagerDelegate {
             return
         }
         completion?(location.coordinate)
-
-        // bug
         completion = nil
-        print("completion = nil")
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
