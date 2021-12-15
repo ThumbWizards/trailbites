@@ -21,7 +21,7 @@ class HeaderView: UIView {
     }()
 
     private lazy var searchAndFilterView: SearchAndFilterView = {
-        let view = SearchAndFilterView(frame: CGRect.zero).withAutoLayout()
+        let view = SearchAndFilterView().withAutoLayout()
         return view
     }()
 
@@ -48,6 +48,10 @@ class HeaderView: UIView {
         ]
         constraints += searchAndFilterView.constraintsToFillSuperviewHorizontally()
         NSLayoutConstraint.activate(constraints)
+    }
+
+    func setSearchAndFilterDelegate(_ delegate: SearchAndFilterDelegate) {
+        searchAndFilterView.delegate = delegate
     }
 }
 

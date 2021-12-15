@@ -64,9 +64,9 @@ class MapViewModel {
 
     func fetchNearbyRestaurants(at atLocation: CLLocationCoordinate2D? = nil) {
         if let location = atLocation {
-            restaurantsDataSource.fetchRestaurants(closestTo: .provided(location))
+            restaurantsDataSource.fetchRestaurants(closestTo: .provided(location), searchFilter: nil)
         } else {
-            restaurantsDataSource.fetchRestaurants(closestTo: .current)
+            restaurantsDataSource.fetchRestaurants(closestTo: .current, searchFilter: nil)
         }
     }
 }

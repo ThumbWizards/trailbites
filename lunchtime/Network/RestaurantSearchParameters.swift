@@ -11,5 +11,5 @@ import MapKit
 struct RestaurantSearchParameters {
     var location: CLLocationCoordinate2D
     var distanceInMeters: Int = 2500
-    var searchKeyword: String = ""
+    var searchKeyword: String? = ""
 }

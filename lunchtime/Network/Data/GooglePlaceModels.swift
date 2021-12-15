@@ -22,6 +22,8 @@ struct GooglePlace: Codable, Restaurant {
     var priceLevel: Int?
     var rating: Double?
     var userRatings: Int?
+    var photos: [GooglePhoto]?
+    var openingHours: PlaceOpeningHours?
 
     var lat: Double {
         return geometry.location.lat
@@ -31,12 +33,30 @@ struct GooglePlace: Codable, Restaurant {
         return geometry.location.long
     }
 
+    var photoReference: String? {
+        return photos?.subscriptSafe(0)?.photoReference
+    }
+
+    var photoWidth: Int? {
+        return photos?.subscriptSafe(0)?.width
+    }
+
+    var photoHeight: Int? {
+        return photos?.subscriptSafe(0)?.height
+    }
+
+    var isOpenNow: Bool? {
+        return openingHours?.openNow ?? nil
+    }
+
     init(from decoder: Decoder) throws {
         name = try decoder.decode("name")
         geometry = try decoder.decode("geometry")
         priceLevel = try decoder.decodeIfPresent("price_level")
         rating = try decoder.decodeIfPresent("rating")
         userRatings = try decoder.decodeIfPresent("user_ratings_total")
+        photos = try decoder.decodeIfPresent("photos")
+        openingHours = try decoder.decodeIfPresent("opening_hours")
     }
 }
 
@@ -45,6 +65,26 @@ struct GoogleGeometry: Codable {
 
     init(from decoder: Decoder) throws {
         location = try decoder.decode("location")
+    }
+}
+
+struct GooglePhoto: Codable {
+    var photoReference: String
+    var height: Int
+    var width: Int
+
+    init(from decoder: Decoder) throws {
+        photoReference = try decoder.decode("photo_reference")
+        height = try decoder.decode("height")
+        width = try decoder.decode("width")
+    }
+}
+
+struct PlaceOpeningHours: Codable {
+    var openNow: Bool?
+
+    init(from decoder: Decoder) throws {
+        openNow = try decoder.decodeIfPresent("open_now")
     }
 }
 

@@ -18,3 +18,16 @@ struct StarViewModel {
         return 5 - restaurant.starCount
     }
 }
+
+struct PlaceholderRestaurant: Restaurant {
+    var name: String = ""
+    var lat: Double = 0
+    var long: Double = 0
+    var priceLevel: Int? = 0
+    var rating: Double? = 0
+    var userRatings: Int? = 0
+    var photoReference: String? = ""
+    var photoWidth: Int? = 0
+    var photoHeight: Int? = 0
+    var isOpenNow: Bool? = nil
+}

@@ -64,6 +64,11 @@
 		4077B4F82766809A0019C47D /* RestaurantSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077B4F72766809A0019C47D /* RestaurantSearchParameters.swift */; };
 		4077B4FB2766A8970019C47D /* GooglePlaceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077B4FA2766A8970019C47D /* GooglePlaceModels.swift */; };
 		408A7BF927658CEA009A00EE /* Codextended in Frameworks */ = {isa = PBXBuildFile; productRef = 408A7BF827658CEA009A00EE /* Codextended */; };
+		40C1A3082769117B00206427 /* SortFilterPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C1A3072769117B00206427 /* SortFilterPopoverViewController.swift */; };
+		40C1A30A27691A6100206427 /* UIPopoverExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C1A30927691A6100206427 /* UIPopoverExtensions.swift */; };
+		40D0D4CB27698B3F005830B7 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CA27698B3F005830B7 /* UIImageExtension.swift */; };
+		40D0D4CD2769907A005830B7 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CC2769907A005830B7 /* UIImageViewExtensions.swift */; };
+		40D0D4CF276990CE005830B7 /* RestaurantImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */; };
 		40E2498C2762F1120025C873 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2498B2762F1120025C873 /* UIColorExtensions.swift */; };
 		40E2498F2762F7240025C873 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2498E2762F7240025C873 /* ListViewController.swift */; };
 		40E249912762F7800025C873 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249902762F7800025C873 /* MapViewController.swift */; };
@@ -154,6 +159,11 @@
 		4077B4F52766807A0019C47D /* RestaurantSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSearchResponse.swift; sourceTree = "<group>"; };
 		4077B4F72766809A0019C47D /* RestaurantSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSearchParameters.swift; sourceTree = "<group>"; };
 		4077B4FA2766A8970019C47D /* GooglePlaceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaceModels.swift; sourceTree = "<group>"; };
+		40C1A3072769117B00206427 /* SortFilterPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortFilterPopoverViewController.swift; sourceTree = "<group>"; };
+		40C1A30927691A6100206427 /* UIPopoverExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPopoverExtensions.swift; sourceTree = "<group>"; };
+		40D0D4CA27698B3F005830B7 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		40D0D4CC2769907A005830B7 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
+		40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantImageView.swift; sourceTree = "<group>"; };
 		40E2498B2762F1120025C873 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		40E2498E2762F7240025C873 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		40E249902762F7800025C873 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -203,13 +213,6 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		403442D82764106D006E7477 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		4038C7A9275D2ABD0029E45A /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +222,7 @@
 				404378002762D9C900D07E2A /* SearchAndFilterView.swift */,
 				40E249922762F7DB0025C873 /* RestaurantTableViewCell.swift */,
 				40E249982762FF780025C873 /* RestaurantCardView.swift */,
+				40C1A3072769117B00206427 /* SortFilterPopoverViewController.swift */,
 				4017D1C427672D0600CFBE74 /* StarView.swift */,
 				4017D1C6276795CD00CFBE74 /* StarViewModel.swift */,
 				4017D1C82767998400CFBE74 /* StarViewModelTests.swift */,
@@ -290,8 +294,8 @@
 		4063AD5E275825690041C569 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				4038C7A9275D2ABD0029E45A /* Views */,
 				4063AD20275822090041C569 /* LaunchScreen.storyboard */,
+				4038C7A9275D2ABD0029E45A /* Views */,
 				4063AD19275822090041C569 /* AppViewController.swift */,
 				403442CA2763E6C4006E7477 /* AppViewModel.swift */,
 				403442CE2763F684006E7477 /* AppViewModelTests.swift */,
@@ -307,10 +311,10 @@
 		4063AD63275826520041C569 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4063AD67275826BA0041C569 /* LaunchScreen */,
+				40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */,
 				40E249A3276307AB0025C873 /* RestaurantViewModel.swift */,
 				4017D1C227671CE300CFBE74 /* RestaurantPointAnnotation.swift */,
-				403442D82764106D006E7477 /* Models */,
-				4063AD67275826BA0041C569 /* LaunchScreen */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -337,13 +341,16 @@
 		4063AD6B2758272E0041C569 /* UIKitExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				404378042762DBC400D07E2A /* StackViewSpacerView.swift */,
 				40E2498B2762F1120025C873 /* UIColorExtensions.swift */,
 				4063AD6F275828900041C569 /* UIFontExtensions.swift */,
+				40D0D4CA27698B3F005830B7 /* UIImageExtension.swift */,
+				40D0D4CC2769907A005830B7 /* UIImageViewExtensions.swift */,
+				40C1A30927691A6100206427 /* UIPopoverExtensions.swift */,
 				404378022762DA7600D07E2A /* UIStackViewExtensions.swift */,
-				400D1A752762BD79000C2DD1 /* UIViewExtensions.swift */,
-				404378042762DBC400D07E2A /* StackViewSpacerView.swift */,
 				40E249942762FBDA0025C873 /* UITableViewCellExtensions.swift */,
 				403442C62763DB81006E7477 /* UIViewControllerExtensions.swift */,
+				400D1A752762BD79000C2DD1 /* UIViewExtensions.swift */,
 			);
 			path = UIKitExtensions;
 			sourceTree = "<group>";
@@ -608,12 +615,17 @@
 				403442C52763D68D006E7477 /* ArrayExtensions.swift in Sources */,
 				40E249A12763071E0025C873 /* MockRestaurants.swift in Sources */,
 				40E2498C2762F1120025C873 /* UIColorExtensions.swift in Sources */,
+				40D0D4CF276990CE005830B7 /* RestaurantImageView.swift in Sources */,
 				4017D1C527672D0600CFBE74 /* StarView.swift in Sources */,
+				40C1A30A27691A6100206427 /* UIPopoverExtensions.swift in Sources */,
 				4063AD52275824E20041C569 /* UserBackedStringSetting.swift in Sources */,
+				40D0D4CD2769907A005830B7 /* UIImageViewExtensions.swift in Sources */,
 				4063AD16275822090041C569 /* AppDelegate.swift in Sources */,
+				40D0D4CB27698B3F005830B7 /* UIImageExtension.swift in Sources */,
 				403442CD2763ED7D006E7477 /* FloatingActionButton.swift in Sources */,
 				4063AD62275826110041C569 /* DelayedOperation.swift in Sources */,
 				4038C7AB275D2AFF0029E45A /* HeaderView.swift in Sources */,
+				40C1A3082769117B00206427 /* SortFilterPopoverViewController.swift in Sources */,
 				4063AD18275822090041C569 /* SceneDelegate.swift in Sources */,
 				404378052762DBC400D07E2A /* StackViewSpacerView.swift in Sources */,
 				4017D1C327671CE300CFBE74 /* RestaurantPointAnnotation.swift in Sources */,
