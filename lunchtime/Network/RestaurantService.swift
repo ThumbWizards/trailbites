@@ -65,8 +65,8 @@ class RestaurantSearch: RestaurantService {
         urlBuilder += "&radius=\(searchParameters.distanceInMeters)"
         urlBuilder += "&types=restaurant"
 
-        if !searchParameters.searchKeyword.isEmpty {
-            urlBuilder += "&keyword=\(searchParameters.searchKeyword)"
+        if let keywordFilter = searchParameters.searchKeyword, !keywordFilter.isEmpty {
+            urlBuilder += "&keyword=\(keywordFilter)"
         }
 
         urlBuilder += "&key=AIzaSyDue_S6t9ybh_NqaeOJDkr1KC9a2ycUYuE"

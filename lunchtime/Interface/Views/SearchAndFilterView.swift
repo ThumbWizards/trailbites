@@ -10,13 +10,13 @@ import Swift
 import UIKit
 
 protocol SearchAndFilterDelegate {
-    func didSearch(withText: String)
     func tapFilter(fromView: UIView)
 }
 
 class SearchAndFilterView: UIView {
 
     var delegate: SearchAndFilterDelegate?
+    let restaurantsDataSource: RestaurantsDataSource
 
     lazy var filterButton: UIButton = {
         let button = UIButton(frame: CGRect.zero)
@@ -24,9 +24,9 @@ class SearchAndFilterView: UIView {
         button.widthAnchor.constraint(equalToConstant: 64).isActive = true
         button.setTitle("Filter", for: .normal)
         button.titleLabel?.font = UIFont.font(size: 14, weight: .regular)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(UIColor.darkText, for: .normal)
         button.layer.borderWidth = 1.0
-        button.layer.borderColor = UIColor.border.withAlphaComponent(0.5).cgColor
+        button.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.75).cgColor
         button.styleWithRoundedCorners(cornerRadius: 8)
         button.layer.masksToBounds = true
         button.addTarget(self, action:#selector(tapFilter(_:)), for: .touchUpInside)
@@ -36,24 +36,33 @@ class SearchAndFilterView: UIView {
     lazy var textField: PaddedTextField = {
         let textField = PaddedTextField(frame: CGRect.zero)
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.darkText,
-                          NSAttributedString.Key.font : UIFont.font(size: 14, weight: .semibold)]
+                          NSAttributedString.Key.font : UIFont.font(size: 14, weight: .bold)]
         textField.attributedPlaceholder = NSAttributedString(string: "Search for a restaurant", attributes:attributes)
-        textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor.border.withAlphaComponent(0.5).cgColor
         textField.styleWithRoundedCorners(cornerRadius: 8)
-        textField.layer.masksToBounds = true
         textField.delegate = self
+        textField.returnKeyType = .search
+        textField.autocorrectionType = .no
+        textField.textColor = UIColor.darkText
+        textField.font = UIFont.font(size: 14, weight: .bold)
+        textField.clearButtonMode = .whileEditing
+        textField.backgroundColor = .white
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.75).cgColor
+        textField.clipsToBounds = false
+        textField.layer.shadowOpacity = 0.1
+        textField.layer.shadowOffset = CGSize(width: 0, height: 2)
+        textField.layer.shadowColor = UIColor.text.cgColor
+        textField.layer.shadowRadius = 1
         return textField
     }()
 
     lazy var contentStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [filterButton, StackViewSpacerView(axis: .horizontal, exactSpace: 20), textField], axis: .horizontal).withAutoLayout()
-
-        return stack
+        return UIStackView(arrangedSubviews: [filterButton, StackViewSpacerView(axis: .horizontal, exactSpace: 20), textField], axis: .horizontal).withAutoLayout()
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(restaurantsDataSource: RestaurantsDataSource = RestaurantsNearbyLocationProvider.sharedManager) {
+        self.restaurantsDataSource = restaurantsDataSource
+        super.init(frame: .zero)
         setupViews()
         setupConstraints()
     }
@@ -69,6 +78,7 @@ class SearchAndFilterView: UIView {
 
     private func setupConstraints() {
         let constraints = contentStack.constraintsToFillSuperview(margins: UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24))
+        textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
         NSLayoutConstraint.activate(constraints)
     }
 
@@ -78,15 +88,18 @@ class SearchAndFilterView: UIView {
 }
 
 extension SearchAndFilterView: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) { }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text else {
             return
         }
-        delegate?.didSearch(withText: text)
+        restaurantsDataSource.fetchRestaurants(closestTo: .last, searchFilter: text)
     }
 
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        delegate?.didSearch(withText: "begin editing")
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -21,7 +21,7 @@ class HeaderView: UIView {
     }()
 
     private lazy var searchAndFilterView: SearchAndFilterView = {
-        let view = SearchAndFilterView(frame: CGRect.zero).withAutoLayout()
+        let view = SearchAndFilterView().withAutoLayout()
         return view
     }()
 

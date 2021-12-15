@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 enum ButtonState {
     case map
@@ -21,26 +22,26 @@ class FloatingActionButton: UIButton {
         }
     }
 
-    convenience init(state: ButtonState) {
-        self.init(type: .custom)
-        buttonState = state
+    var symbolConfiguration: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(weight: .bold)
+    }
 
-        backgroundColor = UIColor.accent
-        tintColor = .white
-        styleWithRoundedCorners(cornerRadius: 8)
-        layer.masksToBounds = true
+    convenience init(state: ButtonState) {
+        self.init(frame: .zero)
+        buttonState = state
         updateButtonState()
     }
 
     private func updateButtonState() {
         switch buttonState {
         case .list:
-            setTitle("List", for: .normal)
-            let listImage = UIImage(systemName: "list.bullet")?.withTintColor(.white)
+            configuration?.attributedTitle = "List"
+            let listImage = UIImage(systemName: "list.bullet", withConfiguration: symbolConfiguration)?.withTintColor(.white)
             setImage(listImage, for: .normal)
+            setNeedsUpdateConfiguration()
         case .map:
-            setTitle("Map", for: .normal)
-            let mapImage = UIImage(systemName: "map")?.withTintColor(.white)
+            configuration?.attributedTitle = "Map"
+            let mapImage = UIImage(systemName: "map", withConfiguration: symbolConfiguration)?.withTintColor(.white)
             setImage(mapImage, for: .normal)
         }
     }

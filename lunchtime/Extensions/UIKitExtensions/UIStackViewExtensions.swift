@@ -44,6 +44,8 @@ public extension UIStackView {
     func removeArrangedSubviews() {
         for view in arrangedSubviews {
             removeArrangedSubview(view)
+            view.removeFromSuperview() // apparently this is required
+            // https://stackoverflow.com/questions/37525706/uistackview-is-it-really-necessary-to-call-both-removefromsuperview-and-remove
         }
     }
 

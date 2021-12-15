@@ -18,13 +18,13 @@ class StarView: UIView {
         return view
     }()
 
-    private var starStack: UIStackView {
-        let stackView = UIStackView(arrangedSubviews: stars(), axis: .horizontal).withAutoLayout()
-        stackView.spacing = 8
+    private lazy var starStack: UIStackView = {
+        let stackView = UIStackView().withAutoLayout()
+        stackView.spacing = 2
         stackView.alignment = .leading
         stackView.axis = .horizontal
         return stackView
-    }
+    }()
 
     init(viewModel: StarViewModel = StarViewModel(restaurant: PlaceholderRestaurant())) {
         self.viewModel = viewModel
@@ -59,7 +59,8 @@ class StarView: UIView {
     }
 
     private func setupConstraints() {
-        let constraints = contentView.constraintsToFillSuperview()
+        var constraints = contentView.constraintsToFillSuperview()
+        constraints += starStack.constraintsToFillSuperview()
         NSLayoutConstraint.activate(constraints)
     }
 
@@ -75,15 +76,16 @@ class StarView: UIView {
     }
 
     private func star(illuminated: Bool) -> UIImageView {
+        let smallConfiguration = UIImage.SymbolConfiguration(scale: .small)
         let image: UIImage?
         if illuminated {
-            image = UIImage(systemName: "star.fill")?.withTintColor(UIColor.starAccent, renderingMode: .alwaysOriginal)
+            image = UIImage(systemName: "star.fill", withConfiguration: smallConfiguration)?.withTintColor(UIColor.starAccent, renderingMode: .alwaysOriginal)
         } else {
-            image = UIImage(systemName: "star.fill")?.withTintColor(UIColor.star, renderingMode: .alwaysOriginal)
+            image = UIImage(systemName: "star.fill", withConfiguration: smallConfiguration)?.withTintColor(UIColor.star, renderingMode: .alwaysOriginal)
         }
         let imageView = UIImageView(image: image).withAutoLayout()
-        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 15).isActive = true
         return UIImageView(image: image)
     }
 }

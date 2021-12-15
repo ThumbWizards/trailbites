@@ -12,6 +12,7 @@ import UserNotifications
 enum NearbyLocation {
     case current
     case provided(CLLocationCoordinate2D)
+    case last
 }
 
 extension Notification.Name {
@@ -20,8 +21,9 @@ extension Notification.Name {
 
 protocol RestaurantsDataSource {
     var restaurantsNearby: [Restaurant] { get }
+    var lastSearchedLocation: CLLocationCoordinate2D? { get }
     var hasAny: Bool { get }
-    func fetchRestaurants(closestTo: NearbyLocation)
+    func fetchRestaurants(closestTo: NearbyLocation, searchFilter: String?)
 }
 
 class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
@@ -35,6 +37,8 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     let ascendingFilterEnabled: BooleanSetting
     let itemLockingQueue = DispatchQueue(label: "itemLockingQueue")
     let mainQueue: OperationQueue
+
+    var lastSearchedLocation: CLLocationCoordinate2D?
 
     var restaurantsNearby: [Restaurant] {
         set {
@@ -78,12 +82,16 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
         }
     }
 
-    func fetchRestaurants(closestTo: NearbyLocation) {
+    func fetchRestaurants(closestTo: NearbyLocation, searchFilter: String? = nil) {
         switch closestTo {
         case .current:
             fetchNearbyRestaurantsAtCurrentLocation()
         case .provided(let alt):
             fetchNearbyRestaurantsAtProvidedLocation(alt)
+        case .last:
+            if let lastLocation = lastSearchedLocation {
+                fetchNearbyRestaurantsAtProvidedLocation(lastLocation, searchFilter: searchFilter)
+            }
         }
     }
 
@@ -95,6 +103,7 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
             }
 
             self.searchRestaurantsNearby(to: userCoordinate) { [weak self] result in
+                self?.lastSearchedLocation = userCoordinate
                 self?.mainQueue.addOperation {
                     switch result {
                     case .success(let searchResponse):
@@ -112,8 +121,9 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
         }
     }
 
-    private func fetchNearbyRestaurantsAtProvidedLocation(_ location: CLLocationCoordinate2D) {
-        searchRestaurantsNearby(to: location) { [weak self] result in
+    private func fetchNearbyRestaurantsAtProvidedLocation(_ location: CLLocationCoordinate2D, searchFilter: String? = nil) {
+        searchRestaurantsNearby(to: location, searchFilter: searchFilter) { [weak self] result in
+            self?.lastSearchedLocation = location
             self?.mainQueue.addOperation {
                 switch result {
                 case .success(let searchResponse):
@@ -134,8 +144,8 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
         return locationManager.fetchCurrentLocation(completion)
     }
 
-    func searchRestaurantsNearby(to coordinate: CLLocationCoordinate2D, completion: @escaping (Result<RestaurantSearchResponse, RestaurantSearchError>) -> Void) {
-        let searchParameters = RestaurantSearchParameters(location: coordinate)
+    func searchRestaurantsNearby(to coordinate: CLLocationCoordinate2D, searchFilter: String? = nil, completion: @escaping (Result<RestaurantSearchResponse, RestaurantSearchError>) -> Void) {
+        let searchParameters = RestaurantSearchParameters(location: coordinate, searchKeyword: searchFilter)
         restaurantService.searchRestaurants(searchParameters: searchParameters, completion: completion)
     }
 

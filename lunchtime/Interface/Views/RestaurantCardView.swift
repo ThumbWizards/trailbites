@@ -24,6 +24,8 @@ public class RestaurantCardView: UIView {
         imageView.image = UIImage(named: "comingsoon")
         imageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderColor = UIColor.border.withAlphaComponent(0.5).cgColor
         return imageView
     }()
 
@@ -49,7 +51,7 @@ public class RestaurantCardView: UIView {
 
     private lazy var starView: StarView = {
         let view = StarView().withAutoLayout()
-        view.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 100).isActive = true
         view.heightAnchor.constraint(equalToConstant: 20).isActive = true
         return view
     }()
@@ -104,13 +106,15 @@ public class RestaurantCardView: UIView {
 
     private func setupConstraints() {
         var constraints = roundedContainerView.constraintsToFillSuperview()
-        constraints += contentView.constraintsToFillSuperview(marginH: 20, marginV: 20)
+        constraints += contentView.constraintsToFillSuperview(marginH: 16, marginV: 16)
+
+        contentView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
 
         detailsView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 2).isActive = true
-        detailsView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16).isActive = true
+        detailsView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12).isActive = true
         detailsView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -2).isActive = true
         detailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
@@ -118,13 +122,13 @@ public class RestaurantCardView: UIView {
         nameLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor).isActive = true
 
-        starView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
-        starView.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
+        starView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
+        starView.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: -2).isActive = true
 
         reviewsLabel.centerYAnchor.constraint(equalTo: starView.centerYAnchor).isActive = true
         reviewsLabel.leadingAnchor.constraint(equalTo: starView.trailingAnchor, constant: 8).isActive = true
 
-        priceLabel.topAnchor.constraint(equalTo: starView.bottomAnchor, constant: 8).isActive = true
+        priceLabel.topAnchor.constraint(equalTo: starView.bottomAnchor, constant: 4).isActive = true
         priceLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
         priceLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor).isActive = true
 

@@ -32,7 +32,19 @@ class AppViewController: UIViewController {
     }()
 
     lazy var listMapButton: FloatingActionButton = {
-        let button = FloatingActionButton(state: .map).withAutoLayout()
+        var configuration = FloatingActionButton.Configuration.filled()
+        configuration.baseBackgroundColor = UIColor.accent
+        configuration.baseForegroundColor = .white
+        configuration.imagePadding = 6
+
+        let transformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+                outgoing.font = UIFont.font(size: 18, weight: .bold)
+            return outgoing
+        }
+        configuration.titleTextAttributesTransformer = transformer
+
+        let button = FloatingActionButton(configuration: configuration, primaryAction: nil).withAutoLayout()
         button.widthAnchor.constraint(equalToConstant: 110).isActive = true
         button.heightAnchor.constraint(equalToConstant: 48).isActive = true
         button.addTarget(self, action:#selector(swapScreen), for: .touchUpInside)
@@ -80,7 +92,7 @@ class AppViewController: UIViewController {
         constraints.append(mapView.topAnchor.constraint(equalTo: headerView.bottomAnchor))
         constraints.append(mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
 
-        constraints.append(listMapButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -48))
+        constraints.append(listMapButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -64))
         constraints.append(listMapButton.centerXAnchor.constraint(equalTo: view.centerXAnchor))
         NSLayoutConstraint.activate(constraints)
     }
@@ -102,10 +114,6 @@ class AppViewController: UIViewController {
 }
 
 extension AppViewController: SearchAndFilterDelegate {
-    func didSearch(withText: String) {
-        print("did search")
-    }
-
     func tapFilter(fromView: UIView) {
         print("tap filter")
 
