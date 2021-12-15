@@ -69,6 +69,8 @@
 		40D0D4CB27698B3F005830B7 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CA27698B3F005830B7 /* UIImageExtension.swift */; };
 		40D0D4CD2769907A005830B7 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CC2769907A005830B7 /* UIImageViewExtensions.swift */; };
 		40D0D4CF276990CE005830B7 /* RestaurantImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */; };
+		40D0D4D127699D8F005830B7 /* RestaurantViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D0D4D027699D8F005830B7 /* RestaurantViewModelTests.swift */; };
+		40D0D4D227699E5A005830B7 /* MockRestaurants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249A02763071E0025C873 /* MockRestaurants.swift */; };
 		40E2498C2762F1120025C873 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2498B2762F1120025C873 /* UIColorExtensions.swift */; };
 		40E2498F2762F7240025C873 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2498E2762F7240025C873 /* ListViewController.swift */; };
 		40E249912762F7800025C873 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249902762F7800025C873 /* MapViewController.swift */; };
@@ -78,7 +80,6 @@
 		40E249992762FF780025C873 /* RestaurantCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249982762FF780025C873 /* RestaurantCardView.swift */; };
 		40E2499C276300780025C873 /* RoundedContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2499B276300780025C873 /* RoundedContainerView.swift */; };
 		40E2499E2763040B0025C873 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2499D2763040B0025C873 /* ListViewModel.swift */; };
-		40E249A12763071E0025C873 /* MockRestaurants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249A02763071E0025C873 /* MockRestaurants.swift */; };
 		40E249A4276307AB0025C873 /* RestaurantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E249A3276307AB0025C873 /* RestaurantViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 		40D0D4CA27698B3F005830B7 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		40D0D4CC2769907A005830B7 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantImageView.swift; sourceTree = "<group>"; };
+		40D0D4D027699D8F005830B7 /* RestaurantViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewModelTests.swift; sourceTree = "<group>"; };
 		40E2498B2762F1120025C873 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		40E2498E2762F7240025C873 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		40E249902762F7800025C873 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				4063AD67275826BA0041C569 /* LaunchScreen */,
 				40D0D4CE276990CE005830B7 /* RestaurantImageView.swift */,
 				40E249A3276307AB0025C873 /* RestaurantViewModel.swift */,
+				40D0D4D027699D8F005830B7 /* RestaurantViewModelTests.swift */,
 				4017D1C227671CE300CFBE74 /* RestaurantPointAnnotation.swift */,
 			);
 			path = Classes;
@@ -613,7 +616,6 @@
 				4063AD53275824E20041C569 /* Notifier.swift in Sources */,
 				40E249992762FF780025C873 /* RestaurantCardView.swift in Sources */,
 				403442C52763D68D006E7477 /* ArrayExtensions.swift in Sources */,
-				40E249A12763071E0025C873 /* MockRestaurants.swift in Sources */,
 				40E2498C2762F1120025C873 /* UIColorExtensions.swift in Sources */,
 				40D0D4CF276990CE005830B7 /* RestaurantImageView.swift in Sources */,
 				4017D1C527672D0600CFBE74 /* StarView.swift in Sources */,
@@ -645,10 +647,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40D0D4D227699E5A005830B7 /* MockRestaurants.swift in Sources */,
 				4017D1C92767998400CFBE74 /* StarViewModelTests.swift in Sources */,
 				403442CF2763F684006E7477 /* AppViewModelTests.swift in Sources */,
 				403442D327640099006E7477 /* MapViewModelTests.swift in Sources */,
 				4063AD8C27582B710041C569 /* lunchtimeTests.swift in Sources */,
+				40D0D4D127699D8F005830B7 /* RestaurantViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
