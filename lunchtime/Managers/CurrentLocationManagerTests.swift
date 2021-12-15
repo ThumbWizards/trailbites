@@ -36,10 +36,33 @@ class CurrentLocationManagerTests: XCTestCase {
         XCTAssertEqual(manager.allowLocationFetch(), false)
     }
 
+    func testLocationNilWhenLocationRestricted() {
+        let disabledMockManager = MockLocationManagerProtocol(authorization: .denied, locationServicesEnabled: false)
+        let manager = CurrentLocationManager(locationManager: disabledMockManager)
+        var result: CLLocationCoordinate2D?
+        manager.fetchCurrentLocation { coordinate in
+            result = coordinate
+        }
+        XCTAssertNil(result)
+    }
+
+    func testLocationExistsWhenLocationEnabled() {
+        let enabledMockManager = MockLocationManagerProtocol(mockLocation: CLLocation(), authorization: .authorizedWhenInUse, locationServicesEnabled: true)
+        let manager = CurrentLocationManager(locationManager: enabledMockManager)
+        let location = CLLocation(latitude: 1.0, longitude: 2.0)
+
+        var result: CLLocationCoordinate2D?
+        manager.fetchCurrentLocation { coordinate in
+            result = coordinate
+        }
+        manager.locationManager(CLLocationManager(), didUpdateLocations: [location])
+        XCTAssertEqual(result, location.coordinate)
+    }
 }
 
 class MockLocationManagerProtocol: CLLocationManagerProtocol {
 
+    let mockLocation: CLLocation?
     let authorization: CLAuthorizationStatus
     let locationServicesEnabled: Bool
 
@@ -70,8 +93,10 @@ class MockLocationManagerProtocol: CLLocationManagerProtocol {
         return authorization
     }
 
-    init(authorization: CLAuthorizationStatus = .notDetermined,
+    init(mockLocation: CLLocation = CLLocation(),
+         authorization: CLAuthorizationStatus = .notDetermined,
          locationServicesEnabled: Bool = false) {
+        self.mockLocation = mockLocation
         self.authorization = authorization
         self.locationServicesEnabled = locationServicesEnabled
     }
