@@ -19,7 +19,6 @@
 		403442CD2763ED7D006E7477 /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442CC2763ED7D006E7477 /* FloatingActionButton.swift */; };
 		403442CF2763F684006E7477 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442CE2763F684006E7477 /* AppViewModelTests.swift */; };
 		403442D12763F8EF006E7477 /* CurrentLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442D02763F8EF006E7477 /* CurrentLocationManager.swift */; };
-		403442D327640099006E7477 /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442D227640099006E7477 /* MapViewModelTests.swift */; };
 		403442D5276401F2006E7477 /* ResturantsNearbyLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442D4276401F2006E7477 /* ResturantsNearbyLocationProvider.swift */; };
 		403442D727640AAC006E7477 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403442D627640AAC006E7477 /* PaddedTextField.swift */; };
 		4038C7A8275D2A070029E45A /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 4038C7A7275D2A070029E45A /* TinyConstraints */; };
@@ -56,7 +55,6 @@
 		4063AD80275829060041C569 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4063AD78275829060041C569 /* SF-Pro-Display-Semibold.otf */; };
 		4063AD81275829060041C569 /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4063AD79275829060041C569 /* SF-Pro-Display-Ultralight.otf */; };
 		4063AD8327582AFC0041C569 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4063AD8227582AFC0041C569 /* Colors.xcassets */; };
-		4063AD8C27582B710041C569 /* lunchtimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4063AD8827582B680041C569 /* lunchtimeTests.swift */; };
 		4063AD8D27582B770041C569 /* lunchtimeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4063AD8627582B680041C569 /* lunchtimeUITestsLaunchTests.swift */; };
 		4063AD8E27582B770041C569 /* lunchtimeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4063AD8727582B680041C569 /* lunchtimeUITests.swift */; };
 		4077B4F427667E9D0019C47D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077B4F327667E9D0019C47D /* RestaurantService.swift */; };
@@ -115,7 +113,6 @@
 		403442CC2763ED7D006E7477 /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
 		403442CE2763F684006E7477 /* AppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTests.swift; sourceTree = "<group>"; };
 		403442D02763F8EF006E7477 /* CurrentLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationManager.swift; sourceTree = "<group>"; };
-		403442D227640099006E7477 /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
 		403442D4276401F2006E7477 /* ResturantsNearbyLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResturantsNearbyLocationProvider.swift; sourceTree = "<group>"; };
 		403442D627640AAC006E7477 /* PaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
 		4038C7AA275D2AFF0029E45A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -157,7 +154,6 @@
 		4063AD8227582AFC0041C569 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4063AD8627582B680041C569 /* lunchtimeUITestsLaunchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = lunchtimeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4063AD8727582B680041C569 /* lunchtimeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = lunchtimeUITests.swift; sourceTree = "<group>"; };
-		4063AD8827582B680041C569 /* lunchtimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = lunchtimeTests.swift; sourceTree = "<group>"; };
 		4077B4F327667E9D0019C47D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		4077B4F52766807A0019C47D /* RestaurantSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSearchResponse.swift; sourceTree = "<group>"; };
 		4077B4F72766809A0019C47D /* RestaurantSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSearchParameters.swift; sourceTree = "<group>"; };
@@ -311,7 +307,6 @@
 				40E2499D2763040B0025C873 /* ListViewModel.swift */,
 				40E249902762F7800025C873 /* MapViewController.swift */,
 				403442C82763E587006E7477 /* MapViewModel.swift */,
-				403442D227640099006E7477 /* MapViewModelTests.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -396,7 +391,6 @@
 			children = (
 				40E2499F276307130025C873 /* MockData */,
 				4063AD8527582B680041C569 /* UITests */,
-				4063AD8827582B680041C569 /* lunchtimeTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -658,8 +652,6 @@
 				40D0D4D227699E5A005830B7 /* MockRestaurants.swift in Sources */,
 				4017D1C92767998400CFBE74 /* StarViewModelTests.swift in Sources */,
 				403442CF2763F684006E7477 /* AppViewModelTests.swift in Sources */,
-				403442D327640099006E7477 /* MapViewModelTests.swift in Sources */,
-				4063AD8C27582B710041C569 /* lunchtimeTests.swift in Sources */,
 				40D0D4D127699D8F005830B7 /* RestaurantViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

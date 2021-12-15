@@ -35,7 +35,6 @@ class RestaurantsNearbyLocationProvider: RestaurantsDataSource {
     let notificationProvider: NotificationProvider
     let notifier: Notifier
     let ascendingFilterEnabled: BooleanSetting
-    let itemLockingQueue = DispatchQueue(label: "itemLockingQueue")
     let mainQueue: OperationQueue
 
     var lastSearchedLocation: CLLocationCoordinate2D?
