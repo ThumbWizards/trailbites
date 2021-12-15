@@ -9,15 +9,6 @@
           "revision": "8d7c46dfc9c55240870cf5561d6cefa41e3d7105",
           "version": "0.3.0"
         }
-      },
-      {
-        "package": "TinyConstraints",
-        "repositoryURL": "https://github.com/roberthein/TinyConstraints.git",
-        "state": {
-          "branch": null,
-          "revision": "3262e5c591d4ab6272255df2087a01bbebd138dc",
-          "version": "4.0.2"
-        }
       }
     ]
   },
