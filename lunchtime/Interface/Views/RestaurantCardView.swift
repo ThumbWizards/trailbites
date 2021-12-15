@@ -19,8 +19,8 @@ public class RestaurantCardView: UIView {
         return view
     }()
 
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero).withAutoLayout()
+    private lazy var imageView: RestuarantImageView = {
+        let imageView = RestuarantImageView(frame: .zero).withAutoLayout()
         imageView.image = UIImage(named: "comingsoon")
         imageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
@@ -107,6 +107,7 @@ public class RestaurantCardView: UIView {
     private func setupConstraints() {
         var constraints = roundedContainerView.constraintsToFillSuperview()
         constraints += contentView.constraintsToFillSuperview(marginH: 16, marginV: 16)
+        NSLayoutConstraint.activate(constraints)
 
         contentView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
@@ -131,9 +132,6 @@ public class RestaurantCardView: UIView {
         priceLabel.topAnchor.constraint(equalTo: starView.bottomAnchor, constant: 4).isActive = true
         priceLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor).isActive = true
         priceLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor).isActive = true
-
-        //constraints.forEach { $0.priority = UILayoutPriority(rawValue: 999) }
-        NSLayoutConstraint.activate(constraints)
     }
 
     func updateWithViewModel(viewModel: RestuarantViewModel?) {
@@ -145,8 +143,16 @@ public class RestaurantCardView: UIView {
         let starViewModel = StarViewModel(restaurant: viewModel.restaurant)
         starView.updateWithViewModel(viewModel: starViewModel)
         nameLabel.text = viewModel.restaurant.name
-        priceLabel.text = viewModel.priceText
+        priceLabel.text = viewModel.priceLabelText
         reviewsLabel.text = "(\(viewModel.restaurant.userRatings ?? 0))"
+
+        if let reference = viewModel.restaurant.photoReference {
+            let parameters = ImageParameters(photoReference: reference, maxSize: 100)
+            imageView.loadImage(imageParameters: parameters)
+        } else {
+            imageView.image = UIImage(named:"comingsoon")
+        }
+
         isUserInteractionEnabled = true
     }
 
@@ -155,6 +161,6 @@ public class RestaurantCardView: UIView {
         nameLabel.text = ""
         priceLabel.text = ""
         reviewsLabel.text = ""
-
+        imageView.image = nil
     }
 }

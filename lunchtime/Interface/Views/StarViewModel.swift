@@ -26,4 +26,8 @@ struct PlaceholderRestaurant: Restaurant {
     var priceLevel: Int? = 0
     var rating: Double? = 0
     var userRatings: Int? = 0
+    var photoReference: String? = ""
+    var photoWidth: Int? = 0
+    var photoHeight: Int? = 0
+    var isOpenNow: Bool? = nil
 }

@@ -14,6 +14,10 @@ protocol Restaurant {
     var priceLevel: Int? { get }
     var rating: Double? { get }
     var userRatings: Int? { get }
+    var photoReference: String? { get }
+    var photoWidth: Int? { get }
+    var photoHeight: Int? { get }
+    var isOpenNow: Bool? { get }
 }
 
 extension Restaurant {
@@ -36,4 +40,8 @@ struct RestaurantDetail: Restaurant {
     var priceLevel: Int?
     var rating: Double?
     var userRatings: Int?
+    var photoReference: String?
+    var photoWidth: Int?
+    var photoHeight: Int?
+    var isOpenNow: Bool?
 }

@@ -15,7 +15,7 @@ class RestuarantViewModel {
         self.restaurant = restaurant
     }
 
-    var priceText: String {
+    private var priceText: String {
         var price = ""
         let priceLevel = restaurant.priceLevel ?? 0
         for _ in 0..<priceLevel {
@@ -23,9 +23,20 @@ class RestuarantViewModel {
         }
 
         if priceLevel == 0 {
-            return "N/A • Supporting Text"
+            return "N/A • "
         }
-        price += " • Supporting Text"
+        price += " • "
         return price
+    }
+
+    private var hoursText: String {
+        guard let openNow = restaurant.isOpenNow else {
+            return ""
+        }
+        return openNow ? "Open now" : "Closed"
+    }
+
+    var priceLabelText: String {
+        return priceText + hoursText
     }
 }
